@@ -1,0 +1,8 @@
+// The module of the first version of the app, kept for reference and no longer in settings.gradle.kts.
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+}

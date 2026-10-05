@@ -1,0 +1,4 @@
+// A copy left in the build output; the folder build is never read.
+repositories {
+    jcenter()
+}

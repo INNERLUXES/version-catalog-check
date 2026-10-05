@@ -1,0 +1,7 @@
+{
+  "name": "Harborlight dependency review",
+  "exclude": ["legacy/**"],
+  "rules": {
+    "kaptProcessor": "info"
+  }
+}

@@ -1,0 +1,762 @@
+{
+  "tool": "version-catalog-check",
+  "version": "1.0.0",
+  "input": {
+    "project": "examples/messy",
+    "gradleFiles": 4,
+    "settingsFiles": 1,
+    "catalogs": 1,
+    "otherFiles": 2,
+    "foldersPassedOver": 1,
+    "excluded": 1,
+    "links": 0,
+    "exclude": [
+      "legacy/**"
+    ]
+  },
+  "config": {
+    "file": "examples/config.json",
+    "name": "Harborlight dependency review",
+    "boms": [
+      {
+        "bom": "androidx.compose:compose-bom",
+        "libraries": [
+          "androidx.compose.*:*"
+        ],
+        "except": [
+          "androidx.compose.compiler:*"
+        ]
+      },
+      {
+        "bom": "com.google.firebase:firebase-bom",
+        "libraries": [
+          "com.google.firebase:*"
+        ],
+        "except": [
+          "com.google.firebase:*-gradle",
+          "com.google.firebase:perf-plugin"
+        ]
+      },
+      {
+        "bom": "org.jetbrains.kotlinx:kotlinx-coroutines-bom",
+        "libraries": [
+          "org.jetbrains.kotlinx:kotlinx-coroutines-*"
+        ],
+        "except": []
+      }
+    ],
+    "deprecatedLibraries": [
+      {
+        "match": "com.android.support:*",
+        "use": "the AndroidX artifact (androidx.*) that the AndroidX migration page lists for it; the Support Library is no longer maintained"
+      },
+      {
+        "match": "com.android.support.*:*",
+        "use": "the AndroidX artifact (androidx.*) that the AndroidX migration page lists for it; the Support Library is no longer maintained"
+      },
+      {
+        "match": "android.arch.*:*",
+        "use": "the androidx artifact that took its place, such as androidx.lifecycle or androidx.room"
+      }
+    ],
+    "deprecatedPlugins": [
+      {
+        "id": "kotlin-android-extensions",
+        "use": "view binding (android.buildFeatures.viewBinding) for views, and the kotlin-parcelize plugin for @Parcelize"
+      },
+      {
+        "id": "org.jetbrains.kotlin.android.extensions",
+        "use": "view binding (android.buildFeatures.viewBinding) for views, and the kotlin-parcelize plugin for @Parcelize"
+      }
+    ],
+    "kspProcessors": [
+      "androidx.room:room-compiler",
+      "com.github.bumptech.glide:compiler",
+      "com.squareup.moshi:moshi-kotlin-codegen",
+      "com.google.dagger:dagger-compiler",
+      "com.google.dagger:hilt-compiler"
+    ],
+    "exclude": [
+      "legacy/**"
+    ],
+    "minSeverity": "info",
+    "failOn": "error",
+    "rules": [
+      {
+        "id": "invalid-catalog-entry",
+        "key": "invalidCatalogEntry",
+        "level": "error",
+        "rule": "an entry of a version catalog that Gradle cannot read as written"
+      },
+      {
+        "id": "missing-version-ref",
+        "key": "missingVersionRef",
+        "level": "error",
+        "rule": "a version.ref to a key that is not in [versions]"
+      },
+      {
+        "id": "dynamic-version",
+        "key": "dynamicVersion",
+        "level": "error",
+        "rule": "a version written with +, latest.* or as a range"
+      },
+      {
+        "id": "duplicate-library",
+        "key": "duplicateLibrary",
+        "level": "error",
+        "rule": "the same group:name declared under two aliases"
+      },
+      {
+        "id": "version-conflict",
+        "key": "versionConflict",
+        "level": "error",
+        "rule": "one group:name with two different versions in the catalogs and build files"
+      },
+      {
+        "id": "deprecated-coordinate",
+        "key": "deprecatedCoordinate",
+        "level": "error",
+        "rule": "a library matching com.android.support:*, com.android.support.*:* and android.arch.*:*, or a plugin kotlin-android-extensions and org.jetbrains.kotlin.android.extensions"
+      },
+      {
+        "id": "jcenter-repository",
+        "key": "jcenterRepository",
+        "level": "error",
+        "rule": "jcenter() in a settings or build file"
+      },
+      {
+        "id": "unused-catalog-entry",
+        "key": "unusedCatalogEntry",
+        "level": "warning",
+        "rule": "a library, bundle or plugin of a catalog that no Gradle file references"
+      },
+      {
+        "id": "unused-version",
+        "key": "unusedVersion",
+        "level": "warning",
+        "rule": "a key of [versions] that no version.ref and no libs.versions accessor uses"
+      },
+      {
+        "id": "hard-coded-dependency",
+        "key": "hardCodedDependency",
+        "level": "warning",
+        "rule": "a dependency string with a version in a build file"
+      },
+      {
+        "id": "version-next-to-bom",
+        "key": "versionNextToBom",
+        "level": "warning",
+        "rule": "a library with a version next to androidx.compose:compose-bom, com.google.firebase:firebase-bom and org.jetbrains.kotlinx:kotlinx-coroutines-bom"
+      },
+      {
+        "id": "maven-local-repository",
+        "key": "mavenLocalRepository",
+        "level": "warning",
+        "rule": "mavenLocal() in a settings or build file"
+      },
+      {
+        "id": "kapt-processor",
+        "key": "kaptProcessor",
+        "level": "info",
+        "rule": "a kapt dependency on androidx.room:room-compiler, com.github.bumptech.glide:compiler, com.squareup.moshi:moshi-kotlin-codegen and 2 more"
+      },
+      {
+        "id": "unreadable-file",
+        "key": null,
+        "level": "error",
+        "rule": "a catalog or Gradle file that the tool could not read"
+      },
+      {
+        "id": "scan-limit",
+        "key": null,
+        "level": "error",
+        "rule": "a project past a limit of the run"
+      }
+    ]
+  },
+  "catalogs": [
+    {
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "name": "libs",
+      "versions": 12,
+      "libraries": 16,
+      "bundles": 1,
+      "plugins": 4,
+      "unused": 2,
+      "how": "default"
+    }
+  ],
+  "modules": [
+    {
+      "file": "examples/messy/app/build.gradle.kts",
+      "module": ":app",
+      "read": true,
+      "catalog": 13,
+      "hardCoded": 3,
+      "strings": 3,
+      "plugins": 3,
+      "platforms": 1,
+      "byLevel": {
+        "error": 1,
+        "warning": 4,
+        "info": 1
+      }
+    },
+    {
+      "file": "examples/messy/build.gradle.kts",
+      "module": ":",
+      "read": true,
+      "catalog": 0,
+      "hardCoded": 0,
+      "strings": 0,
+      "plugins": 2,
+      "platforms": 0,
+      "byLevel": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    {
+      "file": "examples/messy/core/build.gradle",
+      "module": ":core",
+      "read": true,
+      "catalog": 1,
+      "hardCoded": 0,
+      "strings": 0,
+      "plugins": 2,
+      "platforms": 0,
+      "byLevel": {
+        "error": 0,
+        "warning": 1,
+        "info": 0
+      }
+    },
+    {
+      "file": "examples/messy/settings.gradle.kts",
+      "module": "settings",
+      "read": true,
+      "catalog": 0,
+      "hardCoded": 0,
+      "strings": 0,
+      "plugins": 0,
+      "platforms": 0,
+      "byLevel": {
+        "error": 1,
+        "warning": 0,
+        "info": 0
+      }
+    }
+  ],
+  "summary": {
+    "versions": 12,
+    "libraries": 16,
+    "bundles": 1,
+    "plugins": 4,
+    "unusedEntries": 1,
+    "unusedVersions": 1,
+    "hardCoded": 3,
+    "catalogReferences": 14,
+    "boms": [
+      "androidx.compose:compose-bom"
+    ],
+    "kapt": true
+  },
+  "rules": [
+    {
+      "id": "invalid-catalog-entry",
+      "level": "error",
+      "findings": 0
+    },
+    {
+      "id": "missing-version-ref",
+      "level": "error",
+      "findings": 1
+    },
+    {
+      "id": "dynamic-version",
+      "level": "error",
+      "findings": 1
+    },
+    {
+      "id": "duplicate-library",
+      "level": "error",
+      "findings": 1
+    },
+    {
+      "id": "version-conflict",
+      "level": "error",
+      "findings": 1
+    },
+    {
+      "id": "deprecated-coordinate",
+      "level": "error",
+      "findings": 1
+    },
+    {
+      "id": "jcenter-repository",
+      "level": "error",
+      "findings": 1
+    },
+    {
+      "id": "unused-catalog-entry",
+      "level": "warning",
+      "findings": 1
+    },
+    {
+      "id": "unused-version",
+      "level": "warning",
+      "findings": 1
+    },
+    {
+      "id": "hard-coded-dependency",
+      "level": "warning",
+      "findings": 3
+    },
+    {
+      "id": "version-next-to-bom",
+      "level": "warning",
+      "findings": 2
+    },
+    {
+      "id": "maven-local-repository",
+      "level": "warning",
+      "findings": 1
+    },
+    {
+      "id": "kapt-processor",
+      "level": "info",
+      "findings": 1
+    },
+    {
+      "id": "unreadable-file",
+      "level": "error",
+      "findings": 0
+    },
+    {
+      "id": "scan-limit",
+      "level": "error",
+      "findings": 0
+    }
+  ],
+  "findings": [
+    {
+      "rule": "deprecated-coordinate",
+      "level": "error",
+      "file": "examples/messy/app/build.gradle.kts",
+      "line": 36,
+      "column": 20,
+      "at": "examples/messy/app/build.gradle.kts:36",
+      "found": "com.android.support:appcompat-v7 (the dependency \"com.android.support:appcompat-v7:28.0.0\" in implementation) matches com.android.support:*, which is deprecated; use the AndroidX artifact (androidx.*) that the AndroidX migration page lists for it; the Support Library is no longer maintained",
+      "fix": "move to the replacement the message names, and remove the old coordinate or plugin",
+      "basis": [
+        {
+          "text": "the Support Library is no longer maintained, 28.0.0 was its last release, and all new work is in the androidx packages",
+          "source": "AndroidX overview (Android Developers)",
+          "url": "https://developer.android.com/jetpack/androidx"
+        },
+        {
+          "text": "the com.android.support artifacts and the android.arch packages moved to androidx, and the migration page lists the artifact for each",
+          "source": "Migrate to AndroidX (Android Developers)",
+          "url": "https://developer.android.com/jetpack/androidx/migrate"
+        },
+        {
+          "text": "Kotlin Android Extensions is deprecated: the kotlin-android-extensions plugin is removed and view binding takes its place, with the kotlin-parcelize plugin for Parcelable",
+          "source": "Migrate from Kotlin synthetics to Jetpack view binding (Android Developers)",
+          "url": "https://developer.android.com/topic/libraries/view-binding/migration"
+        }
+      ],
+      "own": "a library of a catalog or a dependency string of a build file that matches deprecatedLibraries (com.android.support:*, com.android.support.*:* and android.arch.*:* by default), and a plugin of a catalog or a plugin id of a build file in deprecatedPlugins (kotlin-android-extensions by default); a library declared in a catalog is reported there, once"
+    },
+    {
+      "rule": "dynamic-version",
+      "level": "error",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 11,
+      "column": 10,
+      "at": "examples/messy/gradle/libs.versions.toml:11",
+      "found": "the version \"okhttp\" of the catalog libs is 4.+: the prefix version 4.+ takes the newest version that starts with 4. when the build runs, so two builds of the same commit can use different versions",
+      "fix": "write the one version the build should use, such as 4.12.0, and change it on purpose when you update; if a range is needed, lock the resolved versions with Gradle dependency locking",
+      "basis": [
+        {
+          "text": "Gradle takes ranges such as [1.0,2.0), prefix versions such as 1.+, and the status versions latest.release and latest.integration",
+          "source": "Declaring Versions and Ranges (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/dependency_versions.html"
+        },
+        {
+          "text": "dynamic versions and changing modules can make builds that cannot be reproduced, and a new version may break the API, so locking is advised when they are used",
+          "source": "Declaring Versions and Ranges (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/dependency_versions.html"
+        },
+        {
+          "text": "strictly is the strongest constraint, require allows a higher version, prefer applies only when nothing stronger is given, and reject excludes versions",
+          "source": "Declaring Versions and Ranges (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/dependency_versions.html"
+        }
+      ],
+      "own": "a version that ends with + (1.+, +), starts with latest. (latest.release, latest.integration), or is a range such as [1.0,2.0) or ]1.0,2.0[, in [versions], in a library or plugin of a catalog, in a strictly, require or prefer of a rich version, or in a dependency string of a build file; a version.ref is reported once, at its key; reject is not read for this rule; -SNAPSHOT versions are not reported"
+    },
+    {
+      "rule": "missing-version-ref",
+      "level": "error",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 28,
+      "column": 69,
+      "at": "examples/messy/gradle/libs.versions.toml:28",
+      "found": "the library \"glide\" has version.ref = \"glide\", but [versions] has no key glide, so Gradle stops when it reads the catalog",
+      "fix": "add the key to [versions], or point version.ref at the key that holds the version",
+      "basis": [
+        {
+          "text": "a library is written as one string, with module, or with group and name, and its version is a string, a version.ref to the versions table, or a rich version",
+          "source": "Version Catalogs (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/version_catalogs.html"
+        },
+        {
+          "text": "a catalog file has the tables versions, libraries, bundles and plugins, and Gradle reads gradle/libs.versions.toml as the catalog libs with no setting",
+          "source": "Version Catalogs (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/version_catalogs.html"
+        }
+      ],
+      "own": "a version.ref of a library or a plugin whose key is not in the [versions] table of the same catalog, compared as written"
+    },
+    {
+      "rule": "duplicate-library",
+      "level": "error",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 30,
+      "column": 1,
+      "at": "examples/messy/gradle/libs.versions.toml:30",
+      "found": "the library \"core-ktx\" of the catalog libs has the coordinates androidx.core:core-ktx, as the library \"androidx-core-ktx\" of the catalog libs does (examples/messy/gradle/libs.versions.toml:18); a build file can use either alias",
+      "fix": "keep one alias for the library, point every build file at it, and remove the other",
+      "basis": [
+        {
+          "text": "a catalog keeps the names and versions of dependencies and plugins in one file, in place of names and versions written in each build file, and modules use them through type-safe accessors",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        },
+        {
+          "text": "a library is written as one string, with module, or with group and name, and its version is a string, a version.ref to the versions table, or a rich version",
+          "source": "Version Catalogs (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/version_catalogs.html"
+        }
+      ],
+      "own": "two libraries with the same group:name in the catalogs read, under different aliases; the second is reported, with the place of the first; the same module in two catalogs counts too"
+    },
+    {
+      "rule": "version-conflict",
+      "level": "error",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 30,
+      "column": 1,
+      "at": "examples/messy/gradle/libs.versions.toml:30",
+      "found": "androidx.core:core-ktx has version 1.12.0 in the library \"core-ktx\" of the catalog libs, and version.ref \"coreKtx\" (1.13.1) in the library \"androidx-core-ktx\" of the catalog libs (examples/messy/gradle/libs.versions.toml:18); which one the build gets depends on resolution",
+      "fix": "declare the library once, in the catalog, with one version, and use the catalog accessor in every build file",
+      "basis": [
+        {
+          "text": "a catalog keeps the names and versions of dependencies and plugins in one file, in place of names and versions written in each build file, and modules use them through type-safe accessors",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        },
+        {
+          "text": "strictly is the strongest constraint, require allows a higher version, prefer applies only when nothing stronger is given, and reject excludes versions",
+          "source": "Declaring Versions and Ranges (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/dependency_versions.html"
+        }
+      ],
+      "own": "one group:name written with two different versions across the catalogs and the dependency strings of the build files; a version.ref is followed to its key, a rich version stands for its strictly, else require, else prefer; dynamic versions and versions written with a variable are left out; each declaration after the first with a different version is reported, with the place of the first; which one Gradle picks depends on resolution, which the tool does not run"
+    },
+    {
+      "rule": "jcenter-repository",
+      "level": "error",
+      "file": "examples/messy/settings.gradle.kts",
+      "line": 14,
+      "column": 9,
+      "at": "examples/messy/settings.gradle.kts:14",
+      "found": "jcenter() is a repository of this build, and JCenter is read-only and takes no new versions; a dependency that is only there cannot be updated, and Gradle deprecates jcenter()",
+      "fix": "replace jcenter() with mavenCentral() and check that every dependency is found there",
+      "basis": [
+        {
+          "text": "JCenter takes no new packages and is kept read-only; Gradle advises moving to Maven Central and deprecates jcenter() for removal in a later major release",
+          "source": "JCenter shutdown impact on Gradle builds (Gradle blog)",
+          "url": "https://blog.gradle.org/jcenter-shutdown"
+        },
+        {
+          "text": "repositories are declared in a repositories block, and Gradle looks for each dependency in them",
+          "source": "Declaring Repositories (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/declaring_repositories.html"
+        }
+      ],
+      "own": "a call jcenter() in a settings or build file, outside comments and strings"
+    },
+    {
+      "rule": "hard-coded-dependency",
+      "level": "warning",
+      "file": "examples/messy/app/build.gradle.kts",
+      "line": 31,
+      "column": 20,
+      "at": "examples/messy/app/build.gradle.kts:31",
+      "found": "the dependency \"androidx.compose.ui:ui-tooling-preview:1.6.8\" in implementation is written with its version in the build file instead of coming from the catalog",
+      "fix": "add the library to the catalog and declare it through its accessor, such as implementation(libs.retrofit)",
+      "basis": [
+        {
+          "text": "a catalog keeps the names and versions of dependencies and plugins in one file, in place of names and versions written in each build file, and modules use them through type-safe accessors",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        },
+        {
+          "text": "aliases in kebab case, such as androidx-ktx, give the best code completion, and a plugin from the catalog is applied with alias(libs.plugins...)",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        }
+      ],
+      "own": "a string group:name:version in a dependency configuration of a build file (implementation, api, kapt, classpath and the like, inside platform() too); the message says when a catalog already has the library; group:name with no version, the map notation (group: ..., name: ...) and project(...) are not reported"
+    },
+    {
+      "rule": "version-next-to-bom",
+      "level": "warning",
+      "file": "examples/messy/app/build.gradle.kts",
+      "line": 31,
+      "column": 20,
+      "at": "examples/messy/app/build.gradle.kts:31",
+      "found": "the dependency \"androidx.compose.ui:ui-tooling-preview:1.6.8\" in implementation gives androidx.compose.ui:ui-tooling-preview version 1.6.8, while the BOM androidx.compose:compose-bom is declared in the project; a version written here overrides the one the BOM aligns",
+      "fix": "leave the version out and let the BOM choose it; if one library must differ on purpose, say why in a comment and set this rule to info",
+      "basis": [
+        {
+          "text": "a platform, often published as a Maven BOM, aligns the versions of a set of modules, and once it is imported with platform() the modules of the set can be declared with no version",
+          "source": "Platforms (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/platforms.html"
+        },
+        {
+          "text": "with the Compose BOM androidx.compose:compose-bom imported as a platform, the Compose libraries are declared with no version, and a version written on one of them overrides the BOM",
+          "source": "Use a Bill of Materials (Jetpack Compose, Android Developers)",
+          "url": "https://developer.android.com/develop/ui/compose/bom"
+        },
+        {
+          "text": "in a catalog, the BOM gets a version and the Compose libraries are written with group and name and no version",
+          "source": "Use a Bill of Materials (Jetpack Compose, Android Developers)",
+          "url": "https://developer.android.com/develop/ui/compose/bom"
+        },
+        {
+          "text": "with com.google.firebase:firebase-bom, the Firebase libraries are declared with no version, and a version that differs from the BoM is not advised when more than one Firebase library is used",
+          "source": "Learn more about Android and Firebase: the Firebase Android BoM (Firebase)",
+          "url": "https://firebase.google.com/docs/android/learn-more"
+        },
+        {
+          "text": "the kotlinx.coroutines project publishes a module kotlinx-coroutines-bom besides its libraries",
+          "source": "kotlinx.coroutines (Kotlin on GitHub)",
+          "url": "https://github.com/Kotlin/kotlinx.coroutines"
+        }
+      ],
+      "own": "a library of a catalog or a dependency string of a build file that matches the libraries of an entry of boms and not its except, declared with a version, while the BOM of that entry is declared somewhere in the project (in a catalog or in a build file); whether the BOM is imported as a platform in the module that uses the library is not checked"
+    },
+    {
+      "rule": "hard-coded-dependency",
+      "level": "warning",
+      "file": "examples/messy/app/build.gradle.kts",
+      "line": 34,
+      "column": 20,
+      "at": "examples/messy/app/build.gradle.kts:34",
+      "found": "the dependency \"com.squareup.retrofit2:converter-moshi:2.11.0\" in implementation is written with its version in the build file instead of coming from the catalog",
+      "fix": "add the library to the catalog and declare it through its accessor, such as implementation(libs.retrofit)",
+      "basis": [
+        {
+          "text": "a catalog keeps the names and versions of dependencies and plugins in one file, in place of names and versions written in each build file, and modules use them through type-safe accessors",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        },
+        {
+          "text": "aliases in kebab case, such as androidx-ktx, give the best code completion, and a plugin from the catalog is applied with alias(libs.plugins...)",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        }
+      ],
+      "own": "a string group:name:version in a dependency configuration of a build file (implementation, api, kapt, classpath and the like, inside platform() too); the message says when a catalog already has the library; group:name with no version, the map notation (group: ..., name: ...) and project(...) are not reported"
+    },
+    {
+      "rule": "hard-coded-dependency",
+      "level": "warning",
+      "file": "examples/messy/app/build.gradle.kts",
+      "line": 36,
+      "column": 20,
+      "at": "examples/messy/app/build.gradle.kts:36",
+      "found": "the dependency \"com.android.support:appcompat-v7:28.0.0\" in implementation is written with its version in the build file instead of coming from the catalog",
+      "fix": "add the library to the catalog and declare it through its accessor, such as implementation(libs.retrofit)",
+      "basis": [
+        {
+          "text": "a catalog keeps the names and versions of dependencies and plugins in one file, in place of names and versions written in each build file, and modules use them through type-safe accessors",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        },
+        {
+          "text": "aliases in kebab case, such as androidx-ktx, give the best code completion, and a plugin from the catalog is applied with alias(libs.plugins...)",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        }
+      ],
+      "own": "a string group:name:version in a dependency configuration of a build file (implementation, api, kapt, classpath and the like, inside platform() too); the message says when a catalog already has the library; group:name with no version, the map notation (group: ..., name: ...) and project(...) are not reported"
+    },
+    {
+      "rule": "maven-local-repository",
+      "level": "warning",
+      "file": "examples/messy/core/build.gradle",
+      "line": 7,
+      "column": 5,
+      "at": "examples/messy/core/build.gradle:7",
+      "found": "mavenLocal() is a repository of this build: the local Maven folder differs from machine to machine, can hold modules with parts missing, and Gradle does not cache it",
+      "fix": "remove mavenLocal(); to build against a local change of a library, use a composite build (includeBuild)",
+      "basis": [
+        {
+          "text": "mavenLocal() should as a rule not be added to a build: the local Maven folder is a cache that can hold incomplete modules, its files can be overwritten, and Gradle does not cache it",
+          "source": "Supported Repository Types (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/supported_repository_types.html"
+        },
+        {
+          "text": "repositories are declared in a repositories block, and Gradle looks for each dependency in them",
+          "source": "Declaring Repositories (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/declaring_repositories.html"
+        }
+      ],
+      "own": "a call mavenLocal() in a settings or build file, outside comments and strings"
+    },
+    {
+      "rule": "unused-version",
+      "level": "warning",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 15,
+      "column": 1,
+      "at": "examples/messy/gradle/libs.versions.toml:15",
+      "found": "the version \"timber\" of the catalog libs is never used: no version.ref names it and no Gradle file reads libs.versions.timber",
+      "fix": "remove the key, or point the library or plugin that should follow it at it with version.ref",
+      "basis": [
+        {
+          "text": "a library is written as one string, with module, or with group and name, and its version is a string, a version.ref to the versions table, or a rich version",
+          "source": "Version Catalogs (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/version_catalogs.html"
+        },
+        {
+          "text": "dashes and underscores in an alias become dots in the accessor, so the alias ktor-client-core is used as libs.ktor.client.core",
+          "source": "Version Catalogs (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/version_catalogs.html"
+        }
+      ],
+      "own": "a key of [versions] that no version.ref of the same catalog names and that no Gradle file reads as libs.versions.x"
+    },
+    {
+      "rule": "version-next-to-bom",
+      "level": "warning",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 22,
+      "column": 1,
+      "at": "examples/messy/gradle/libs.versions.toml:22",
+      "found": "the library \"compose-material3\" of the catalog libs gives androidx.compose.material3:material3 version 1.2.1, while the BOM androidx.compose:compose-bom is declared in the project; a version written here overrides the one the BOM aligns",
+      "fix": "leave the version out and let the BOM choose it; if one library must differ on purpose, say why in a comment and set this rule to info",
+      "basis": [
+        {
+          "text": "a platform, often published as a Maven BOM, aligns the versions of a set of modules, and once it is imported with platform() the modules of the set can be declared with no version",
+          "source": "Platforms (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/platforms.html"
+        },
+        {
+          "text": "with the Compose BOM androidx.compose:compose-bom imported as a platform, the Compose libraries are declared with no version, and a version written on one of them overrides the BOM",
+          "source": "Use a Bill of Materials (Jetpack Compose, Android Developers)",
+          "url": "https://developer.android.com/develop/ui/compose/bom"
+        },
+        {
+          "text": "in a catalog, the BOM gets a version and the Compose libraries are written with group and name and no version",
+          "source": "Use a Bill of Materials (Jetpack Compose, Android Developers)",
+          "url": "https://developer.android.com/develop/ui/compose/bom"
+        },
+        {
+          "text": "with com.google.firebase:firebase-bom, the Firebase libraries are declared with no version, and a version that differs from the BoM is not advised when more than one Firebase library is used",
+          "source": "Learn more about Android and Firebase: the Firebase Android BoM (Firebase)",
+          "url": "https://firebase.google.com/docs/android/learn-more"
+        },
+        {
+          "text": "the kotlinx.coroutines project publishes a module kotlinx-coroutines-bom besides its libraries",
+          "source": "kotlinx.coroutines (Kotlin on GitHub)",
+          "url": "https://github.com/Kotlin/kotlinx.coroutines"
+        }
+      ],
+      "own": "a library of a catalog or a dependency string of a build file that matches the libraries of an entry of boms and not its except, declared with a version, while the BOM of that entry is declared somewhere in the project (in a catalog or in a build file); whether the BOM is imported as a platform in the module that uses the library is not checked"
+    },
+    {
+      "rule": "unused-catalog-entry",
+      "level": "warning",
+      "file": "examples/messy/gradle/libs.versions.toml",
+      "line": 29,
+      "column": 1,
+      "at": "examples/messy/gradle/libs.versions.toml:29",
+      "found": "the library \"picasso\" (com.squareup.picasso:picasso) of the catalog libs is never used: no Gradle file names libs.picasso, and no bundle that is used holds it",
+      "fix": "remove the entry when nothing uses it, or reference it where it is meant to be used",
+      "basis": [
+        {
+          "text": "dashes and underscores in an alias become dots in the accessor, so the alias ktor-client-core is used as libs.ktor.client.core",
+          "source": "Version Catalogs (Gradle User Manual)",
+          "url": "https://docs.gradle.org/current/userguide/version_catalogs.html"
+        },
+        {
+          "text": "a catalog keeps the names and versions of dependencies and plugins in one file, in place of names and versions written in each build file, and modules use them through type-safe accessors",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        },
+        {
+          "text": "aliases in kebab case, such as androidx-ktx, give the best code completion, and a plugin from the catalog is applied with alias(libs.plugins...)",
+          "source": "Migrate your build to version catalogs (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-catalogs"
+        }
+      ],
+      "own": "a library, bundle or plugin whose accessor (libs.x.y, libs.bundles.x, libs.plugins.x, with dashes, underscores and dots all read as dots) appears in no Gradle file of the project, outside comments and strings; a library counts as used when a bundle that holds it is used; references from Kotlin or Java code outside Gradle files, such as convention plugins in build-logic, are not seen"
+    },
+    {
+      "rule": "kapt-processor",
+      "level": "info",
+      "file": "examples/messy/app/build.gradle.kts",
+      "line": 39,
+      "column": 10,
+      "at": "examples/messy/app/build.gradle.kts:39",
+      "found": "androidx.room:room-compiler (libs.room.compiler) runs with kapt, and it also runs with KSP, which needs no Java stubs and is faster; kapt is in maintenance mode",
+      "fix": "apply the KSP plugin (com.google.devtools.ksp), change kapt(...) to ksp(...), and remove the kapt plugin once no processor needs it",
+      "basis": [
+        {
+          "text": "kapt is in maintenance mode and KSP runs up to twice as fast; a processor that supports KSP is moved by adding the KSP plugin and changing kapt(...) to ksp(...)",
+          "source": "Migrate from kapt to KSP (Android Developers)",
+          "url": "https://developer.android.com/build/migrate-to-ksp"
+        },
+        {
+          "text": "Room, Moshi, Glide and Dagger are among the libraries with KSP support",
+          "source": "Kotlin Symbol Processing API: supported libraries (Kotlin documentation)",
+          "url": "https://kotlinlang.org/docs/ksp-overview.html"
+        }
+      ],
+      "own": "a dependency in kapt or a kapt configuration of a variant (kaptTest, kaptAndroidTest) on a processor of kspProcessors, as a string or through a catalog accessor; a suggestion only, because a module may need kapt for another processor, such as data binding"
+    }
+  ],
+  "totals": {
+    "findings": 15,
+    "byLevel": {
+      "error": 6,
+      "warning": 8,
+      "info": 1
+    },
+    "hidden": 0,
+    "notListed": 0,
+    "gradleFiles": 4,
+    "catalogs": 1
+  },
+  "result": {
+    "pass": false,
+    "failOn": "error",
+    "failing": 6,
+    "byLevel": {
+      "error": 6,
+      "warning": 8,
+      "info": 1
+    },
+    "text": "FAIL - 6 findings at or above error (6 error, 8 warning, 1 info)"
+  },
+  "notes": [
+    "1 path matching legacy/** is left out",
+    "1 folder named build, .gradle or .git is passed over"
+  ],
+  "notice": "This check reads the version catalogs and the Gradle files on disk as text and fetches nothing; it never says what the latest version of a library is. A finding is a lead with a file and a line, and a clean result is not a Gradle build and not a dependency resolution (docs/limits.md)."
+}

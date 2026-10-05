@@ -1,0 +1,115 @@
+version-catalog-check: examples/messy
+input: 4 Gradle files (1 settings file); 1 catalog; 2 other files passed over; 1 folder named build, .gradle or .git passed over; 1 path excluded; 0 links not followed
+catalogs: examples/messy/gradle/libs.versions.toml (libs)
+config: examples/config.json (Harborlight dependency review): BOMs androidx.compose:compose-bom, com.google.firebase:firebase-bom and org.jetbrains.kotlinx:kotlinx-coroutines-bom; deprecated libraries com.android.support:*, com.android.support.*:* and android.arch.*:*; deprecated plugins kotlin-android-extensions and org.jetbrains.kotlin.android.extensions; KSP processors androidx.room:room-compiler, com.github.bumptech.glide:compiler, com.squareup.moshi:moshi-kotlin-codegen, com.google.dagger:dagger-compiler and com.google.dagger:hilt-compiler; exclude legacy/**; minimum severity info; fail on error
+rules: invalid-catalog-entry (error); missing-version-ref (error); dynamic-version (error); duplicate-library (error); version-conflict (error); deprecated-coordinate (error); jcenter-repository (error); unused-catalog-entry (warning); unused-version (warning); hard-coded-dependency (warning); version-next-to-bom (warning); maven-local-repository (warning); kapt-processor (info); unreadable-file (error); scan-limit (error)
+findings: 15 (6 error, 8 warning, 1 info)
+
+Catalogs (1)
+
+  catalog                                   name  versions  libraries  bundles  plugins  unused
+  examples/messy/gradle/libs.versions.toml  libs  12        16         1        4        2
+
+Gradle files (4)
+
+  file                                 module    catalog  strings  with version  plugins  error  warning  info
+  examples/messy/app/build.gradle.kts  :app      13       3        3             3        1      4        1
+  examples/messy/build.gradle.kts      :         0        0        0             2        0      0        0
+  examples/messy/core/build.gradle     :core     1        0        0             2        0      1        0
+  examples/messy/settings.gradle.kts   settings  0        0        0             0        1      0        0
+
+Summary
+
+  catalog entries: 16 libraries, 1 bundle, 4 plugins, 12 versions
+  unused: 1 catalog entry, 1 version
+  dependencies: 14 through a catalog, 3 written with a version in a build file
+  BOMs in the project: androidx.compose:compose-bom
+  kapt: applied
+
+Rules (15)
+
+  rule                    level    findings
+  invalid-catalog-entry   error    0
+  missing-version-ref     error    1
+  dynamic-version         error    1
+  duplicate-library       error    1
+  version-conflict        error    1
+  deprecated-coordinate   error    1
+  jcenter-repository      error    1
+  unused-catalog-entry    warning  1
+  unused-version          warning  1
+  hard-coded-dependency   warning  3
+  version-next-to-bom     warning  2
+  maven-local-repository  warning  1
+  kapt-processor          info     1
+  unreadable-file         error    0
+  scan-limit              error    0
+
+Findings (15)
+
+  ERROR    deprecated-coordinate   examples/messy/app/build.gradle.kts:36
+           com.android.support:appcompat-v7 (the dependency "com.android.support:appcompat-v7:28.0.0" in implementation) matches com.android.support:*, which is deprecated; use the AndroidX artifact (androidx.*) that the AndroidX migration page lists for it; the Support Library is no longer maintained
+           fix: move to the replacement the message names, and remove the old coordinate or plugin
+
+  ERROR    dynamic-version         examples/messy/gradle/libs.versions.toml:11
+           the version "okhttp" of the catalog libs is 4.+: the prefix version 4.+ takes the newest version that starts with 4. when the build runs, so two builds of the same commit can use different versions
+           fix: write the one version the build should use, such as 4.12.0, and change it on purpose when you update; if a range is needed, lock the resolved versions with Gradle dependency locking
+
+  ERROR    missing-version-ref     examples/messy/gradle/libs.versions.toml:28
+           the library "glide" has version.ref = "glide", but [versions] has no key glide, so Gradle stops when it reads the catalog
+           fix: add the key to [versions], or point version.ref at the key that holds the version
+
+  ERROR    duplicate-library       examples/messy/gradle/libs.versions.toml:30
+           the library "core-ktx" of the catalog libs has the coordinates androidx.core:core-ktx, as the library "androidx-core-ktx" of the catalog libs does (examples/messy/gradle/libs.versions.toml:18); a build file can use either alias
+           fix: keep one alias for the library, point every build file at it, and remove the other
+
+  ERROR    version-conflict        examples/messy/gradle/libs.versions.toml:30
+           androidx.core:core-ktx has version 1.12.0 in the library "core-ktx" of the catalog libs, and version.ref "coreKtx" (1.13.1) in the library "androidx-core-ktx" of the catalog libs (examples/messy/gradle/libs.versions.toml:18); which one the build gets depends on resolution
+           fix: declare the library once, in the catalog, with one version, and use the catalog accessor in every build file
+
+  ERROR    jcenter-repository      examples/messy/settings.gradle.kts:14
+           jcenter() is a repository of this build, and JCenter is read-only and takes no new versions; a dependency that is only there cannot be updated, and Gradle deprecates jcenter()
+           fix: replace jcenter() with mavenCentral() and check that every dependency is found there
+
+  WARNING  hard-coded-dependency   examples/messy/app/build.gradle.kts:31
+           the dependency "androidx.compose.ui:ui-tooling-preview:1.6.8" in implementation is written with its version in the build file instead of coming from the catalog
+           fix: add the library to the catalog and declare it through its accessor, such as implementation(libs.retrofit)
+
+  WARNING  version-next-to-bom     examples/messy/app/build.gradle.kts:31
+           the dependency "androidx.compose.ui:ui-tooling-preview:1.6.8" in implementation gives androidx.compose.ui:ui-tooling-preview version 1.6.8, while the BOM androidx.compose:compose-bom is declared in the project; a version written here overrides the one the BOM aligns
+           fix: leave the version out and let the BOM choose it; if one library must differ on purpose, say why in a comment and set this rule to info
+
+  WARNING  hard-coded-dependency   examples/messy/app/build.gradle.kts:34
+           the dependency "com.squareup.retrofit2:converter-moshi:2.11.0" in implementation is written with its version in the build file instead of coming from the catalog
+           fix: add the library to the catalog and declare it through its accessor, such as implementation(libs.retrofit)
+
+  WARNING  hard-coded-dependency   examples/messy/app/build.gradle.kts:36
+           the dependency "com.android.support:appcompat-v7:28.0.0" in implementation is written with its version in the build file instead of coming from the catalog
+           fix: add the library to the catalog and declare it through its accessor, such as implementation(libs.retrofit)
+
+  WARNING  maven-local-repository  examples/messy/core/build.gradle:7
+           mavenLocal() is a repository of this build: the local Maven folder differs from machine to machine, can hold modules with parts missing, and Gradle does not cache it
+           fix: remove mavenLocal(); to build against a local change of a library, use a composite build (includeBuild)
+
+  WARNING  unused-version          examples/messy/gradle/libs.versions.toml:15
+           the version "timber" of the catalog libs is never used: no version.ref names it and no Gradle file reads libs.versions.timber
+           fix: remove the key, or point the library or plugin that should follow it at it with version.ref
+
+  WARNING  version-next-to-bom     examples/messy/gradle/libs.versions.toml:22
+           the library "compose-material3" of the catalog libs gives androidx.compose.material3:material3 version 1.2.1, while the BOM androidx.compose:compose-bom is declared in the project; a version written here overrides the one the BOM aligns
+           fix: leave the version out and let the BOM choose it; if one library must differ on purpose, say why in a comment and set this rule to info
+
+  WARNING  unused-catalog-entry    examples/messy/gradle/libs.versions.toml:29
+           the library "picasso" (com.squareup.picasso:picasso) of the catalog libs is never used: no Gradle file names libs.picasso, and no bundle that is used holds it
+           fix: remove the entry when nothing uses it, or reference it where it is meant to be used
+
+  INFO     kapt-processor          examples/messy/app/build.gradle.kts:39
+           androidx.room:room-compiler (libs.room.compiler) runs with kapt, and it also runs with KSP, which needs no Java stubs and is faster; kapt is in maintenance mode
+           fix: apply the KSP plugin (com.google.devtools.ksp), change kapt(...) to ksp(...), and remove the kapt plugin once no processor needs it
+
+note: 1 path matching legacy/** is left out
+note: 1 folder named build, .gradle or .git is passed over
+
+This check reads the version catalogs and the Gradle files on disk as text and fetches nothing; it never says what the latest version of a library is. A finding is a lead with a file and a line, and a clean result is not a Gradle build and not a dependency resolution (docs/limits.md).
+
+RESULT: FAIL - 6 findings at or above error (6 error, 8 warning, 1 info)

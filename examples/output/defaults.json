@@ -1,0 +1,80 @@
+{
+  "name": "built-in defaults",
+  "rules": {
+    "invalidCatalogEntry": "error",
+    "missingVersionRef": "error",
+    "dynamicVersion": "error",
+    "duplicateLibrary": "error",
+    "versionConflict": "error",
+    "deprecatedCoordinate": "error",
+    "jcenterRepository": "error",
+    "unusedCatalogEntry": "warning",
+    "unusedVersion": "warning",
+    "hardCodedDependency": "warning",
+    "versionNextToBom": "warning",
+    "mavenLocalRepository": "warning",
+    "kaptProcessor": "info"
+  },
+  "boms": [
+    {
+      "bom": "androidx.compose:compose-bom",
+      "libraries": [
+        "androidx.compose.*:*"
+      ],
+      "except": [
+        "androidx.compose.compiler:*"
+      ]
+    },
+    {
+      "bom": "com.google.firebase:firebase-bom",
+      "libraries": [
+        "com.google.firebase:*"
+      ],
+      "except": [
+        "com.google.firebase:*-gradle",
+        "com.google.firebase:perf-plugin"
+      ]
+    },
+    {
+      "bom": "org.jetbrains.kotlinx:kotlinx-coroutines-bom",
+      "libraries": [
+        "org.jetbrains.kotlinx:kotlinx-coroutines-*"
+      ],
+      "except": []
+    }
+  ],
+  "deprecatedLibraries": [
+    {
+      "match": "com.android.support:*",
+      "use": "the AndroidX artifact (androidx.*) that the AndroidX migration page lists for it; the Support Library is no longer maintained"
+    },
+    {
+      "match": "com.android.support.*:*",
+      "use": "the AndroidX artifact (androidx.*) that the AndroidX migration page lists for it; the Support Library is no longer maintained"
+    },
+    {
+      "match": "android.arch.*:*",
+      "use": "the androidx artifact that took its place, such as androidx.lifecycle or androidx.room"
+    }
+  ],
+  "deprecatedPlugins": [
+    {
+      "id": "kotlin-android-extensions",
+      "use": "view binding (android.buildFeatures.viewBinding) for views, and the kotlin-parcelize plugin for @Parcelize"
+    },
+    {
+      "id": "org.jetbrains.kotlin.android.extensions",
+      "use": "view binding (android.buildFeatures.viewBinding) for views, and the kotlin-parcelize plugin for @Parcelize"
+    }
+  ],
+  "kspProcessors": [
+    "androidx.room:room-compiler",
+    "com.github.bumptech.glide:compiler",
+    "com.squareup.moshi:moshi-kotlin-codegen",
+    "com.google.dagger:dagger-compiler",
+    "com.google.dagger:hilt-compiler"
+  ],
+  "exclude": [],
+  "minSeverity": "info",
+  "failOn": "error"
+}

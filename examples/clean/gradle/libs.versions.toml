@@ -1,0 +1,31 @@
+# Fernbrook Notes: every library, bundle, plugin and version is used, and the Compose libraries follow the BOM.
+
+[versions]
+agp = "8.5.2"
+kotlin = "2.0.21"
+ksp = "2.0.21-1.0.28"
+compileSdk = "34"
+coreKtx = "1.13.1"
+activityCompose = "1.9.3"
+composeBom = "3.2.0"
+room = "2.6.1"
+junit = "4.13.2"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[bundles]
+compose = ["compose-ui", "compose-material3"]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

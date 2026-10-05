@@ -1,0 +1,19 @@
+plugins {
+    alias libs.plugins.android.library
+    alias libs.plugins.kotlin.android
+}
+
+repositories {
+    mavenLocal()
+}
+
+android {
+    namespace 'rides.harborlight.core'
+    compileSdk 34
+}
+
+dependencies {
+    implementation libs.core.ktx
+    // implementation 'com.squareup.okhttp3:okhttp:3.14.9'
+    /* testImplementation "junit:junit:4.+" */
+}

@@ -1,0 +1,53 @@
+version-catalog-check: examples/clean
+input: 3 Gradle files (1 settings file); 1 catalog; 2 other files passed over; 0 folders named build, .gradle or .git passed over; 0 paths excluded; 0 links not followed
+catalogs: examples/clean/gradle/libs.versions.toml (libs)
+config: built-in defaults: BOMs androidx.compose:compose-bom, com.google.firebase:firebase-bom and org.jetbrains.kotlinx:kotlinx-coroutines-bom; deprecated libraries com.android.support:*, com.android.support.*:* and android.arch.*:*; deprecated plugins kotlin-android-extensions and org.jetbrains.kotlin.android.extensions; KSP processors androidx.room:room-compiler, com.github.bumptech.glide:compiler, com.squareup.moshi:moshi-kotlin-codegen, com.google.dagger:dagger-compiler and com.google.dagger:hilt-compiler; exclude none; minimum severity info; fail on error
+rules: invalid-catalog-entry (error); missing-version-ref (error); dynamic-version (error); duplicate-library (error); version-conflict (error); deprecated-coordinate (error); jcenter-repository (error); unused-catalog-entry (warning); unused-version (warning); hard-coded-dependency (warning); version-next-to-bom (warning); maven-local-repository (warning); kapt-processor (info); unreadable-file (error); scan-limit (error)
+findings: 0
+
+Catalogs (1)
+
+  catalog                                   name  versions  libraries  bundles  plugins  unused
+  examples/clean/gradle/libs.versions.toml  libs  9         8          1        4        0
+
+Gradle files (3)
+
+  file                                 module    catalog  strings  with version  plugins  error  warning  info
+  examples/clean/app/build.gradle.kts  :app      7        0        0             4        0      0        0
+  examples/clean/build.gradle.kts      :         0        0        0             4        0      0        0
+  examples/clean/settings.gradle.kts   settings  0        0        0             0        0      0        0
+
+Summary
+
+  catalog entries: 8 libraries, 1 bundle, 4 plugins, 9 versions
+  unused: 0 catalog entries, 0 versions
+  dependencies: 7 through a catalog, 0 written with a version in a build file
+  BOMs in the project: androidx.compose:compose-bom
+  kapt: not applied
+
+Rules (15)
+
+  rule                    level    findings
+  invalid-catalog-entry   error    0
+  missing-version-ref     error    0
+  dynamic-version         error    0
+  duplicate-library       error    0
+  version-conflict        error    0
+  deprecated-coordinate   error    0
+  jcenter-repository      error    0
+  unused-catalog-entry    warning  0
+  unused-version          warning  0
+  hard-coded-dependency   warning  0
+  version-next-to-bom     warning  0
+  maven-local-repository  warning  0
+  kapt-processor          info     0
+  unreadable-file         error    0
+  scan-limit              error    0
+
+Findings (0)
+
+  none
+
+This check reads the version catalogs and the Gradle files on disk as text and fetches nothing; it never says what the latest version of a library is. A finding is a lead with a file and a line, and a clean result is not a Gradle build and not a dependency resolution (docs/limits.md).
+
+RESULT: PASS - no finding at or above error
