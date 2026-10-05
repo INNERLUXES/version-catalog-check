@@ -1,0 +1,50 @@
+{
+  "name": "version-catalog-check",
+  "version": "1.0.0",
+  "description": "Gradle version catalog check: reads gradle/libs.versions.toml, the other catalogs of the settings file and every build.gradle and build.gradle.kts of an Android or other Gradle project as text, fetches nothing, and lists catalog entries and versions no build file uses, version.ref keys that are missing, dependencies written with their version in a build file, dynamic versions, libraries declared twice or with two versions, versions next to a BOM, deprecated coordinates such as the Support Library, jcenter() and mavenLocal(), and kapt processors that run with KSP, with file and line and a summary per module. Text, JSON, CSV and GitHub annotation output, exit codes for a pipeline, no dependencies.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "bin": {
+    "version-catalog-check": "bin/version-catalog-check.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "docs",
+    "examples",
+    "research",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage \"test/*.test.js\"",
+    "check": "node tools/check.mjs",
+    "example": "node tools/example.mjs"
+  },
+  "keywords": [
+    "android",
+    "gradle",
+    "version-catalog",
+    "libs-versions-toml",
+    "kotlin",
+    "dependency-management",
+    "bom",
+    "code-review",
+    "toml",
+    "cli"
+  ],
+  "author": "INNERLUXES <info@innerluxes.dev>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INNERLUXES/version-catalog-check.git"
+  },
+  "homepage": "https://innerluxes.dev/application/mobile/development/android/developers-for-hire"
+}
